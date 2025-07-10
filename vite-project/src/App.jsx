@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+//This is dummy ....
 import {
   LayoutDashboard,
   Users,
@@ -55,7 +56,7 @@ export default function App() {
           <li><Settings size={18} /> <span>Settings</span></li>
         </ul>
       </aside>
-
+    
       <main className="main-content">
         <div className="header">
           <div className="title">Leads</div>
@@ -98,6 +99,7 @@ export default function App() {
           <table className="leads-table">
             <thead>
               <tr>
+              
                 <th>Name</th>
                 <th>Company</th>
                 <th>Email</th>
@@ -117,6 +119,7 @@ export default function App() {
                   <td>{lead.assignedTo}</td>
                 </tr>
               ))}
+              
               {filteredLeads.length === 0 && (
                 <tr>
                   <td colSpan="6" className="no-leads">No leads found.</td>
