@@ -1,0 +1,199 @@
+/* App.css */
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background-color: #1f2937;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-menu li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.sidebar-menu li:hover {
+  background-color: #374151;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon {
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.avatar {
+  border-radius: 9999px;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #d1d5db;
+  padding: 6px 10px;
+  border-radius: 6px;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-icon {
+  margin-right: 8px;
+  color: #9ca3af;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  flex: 1;
+}
+
+.status-filter {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #d1d5db;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.filter-select {
+  border: none;
+  outline: none;
+  margin-left: 8px;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.leads-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leads-table thead {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+
+.leads-table th,
+.leads-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.no-leads {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+}
+
+/* Status Tags */
+.status-tag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-tag.new {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+.status-tag.contacted {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.status-tag.qualified {
+  background-color: #ecfccb;
+  color: #15803d;
+}
+
+.status-tag.proposal {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+}
+
+.status-tag.won {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+.status-tag.lost {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
