@@ -1,14 +1,18 @@
+// Filename: src/main.jsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
 
-// Redux imports
 import { Provider } from 'react-redux';
-import { store } from './store/redux.js'; // Ensure this path is correct relative to main.jsx
+// Corrected import path to point directly to redux.js
+import { store } from './store/redux.js'; // Use named import if 'store' is a named export from redux.js
 
-// Toast imports
+import { setAuthFromLocalStorage } from './features/auth/authSlice';
+
 import { Toaster } from 'react-hot-toast';
+
+store.dispatch(setAuthFromLocalStorage());
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

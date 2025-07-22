@@ -1,39 +1,31 @@
-import React, { useState } from 'react';
+// Filename: src/components/auth/ForgotPassword.jsx
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { forgotPassword, clearAuthError } from '../../features/auth/authSlice';
 import toast from 'react-hot-toast';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const API_FORGOT_PASSWORD_URL = 'https://api.aartian.online/api/auth/forgot-password';
+  const dispatch = useDispatch();
+  const { isLoading, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(clearAuthError());
+  }, [dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    try {
-      const response = await axios.post(API_FORGOT_PASSWORD_URL, { email });
+    const resultAction = await dispatch(forgotPassword(email));
 
-      if (response.status === 200) {
-        toast.success('If an account with that email exists, a password reset link has been sent.');
-        setEmail('');
-        navigate('/login');
-      } else {
-        toast.error(response.data.message || 'Failed to send password reset link. Please check the email.');
-      }
-    } catch (error) {
-      console.error('Error during forgot password request:', error);
-      if (error.response) {
-        toast.error(error.response.data.message || 'An error occurred. Please try again.');
-      } else if (error.request) {
-        toast.error('No response from server. Please check your internet connection.');
-      } else {
-        toast.error(`Error: ${error.message}. Please try again.`);
-      }
-    } finally {
-      setIsLoading(false);
+    if (forgotPassword.fulfilled.match(resultAction)) {
+      toast.success(resultAction.payload.message || 'If an account with that email exists, a password reset link has been sent.');
+      setEmail('');
+      navigate('/login');
+    } else if (forgotPassword.rejected.match(resultAction)) {
+      toast.error(resultAction.payload || 'Failed to send password reset link. Please try again.');
     }
   };
 
@@ -59,6 +51,10 @@ function ForgotPassword() {
               required
             />
           </div>
+
+          {error && (
+            <p className="text-red-500 text-xs italic text-center">{error}</p>
+          )}
 
           <button
             type="submit"

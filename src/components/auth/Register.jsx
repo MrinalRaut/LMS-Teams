@@ -1,52 +1,46 @@
+// Filename: src/components/auth/Register.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser, clearAuthError } from '../../features/auth/authSlice';
+import toast from 'react-hot-toast'; // Keep toast for notifications
+import { useEffect } from 'react';
 
 function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
-  const API_BASE_URL = 'https://api.aartian.online/api/auth';
+  const dispatch = useDispatch();
+  const { isLoading, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(clearAuthError());
+  }, [email, password, name, dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
     if (password !== confirmPassword) {
       toast.error('Passwords do not match.');
-      setIsLoading(false);
       return;
     }
 
-    try {
-      const response = await axios.post(`${API_BASE_URL}/register`, { name, email, password });
+    // Dispatch the registerUser async thunk
+    const resultAction = await dispatch(registerUser({ name, email, password }));
 
-      if (response.status === 201 || response.status === 200) {
-        toast.success(response.data.message || 'Registration successful! You can now log in.');
-        setName('');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
-        navigate('/login');
-      } else {
-        toast.error(response.data.message || 'An error occurred during registration.');
-      }
-    } catch (error) {
-      console.error('Error during registration:', error);
-      if (error.response) {
-        toast.error(error.response.data.message || 'An error occurred. Please try again.');
-      } else if (error.request) {
-        toast.error('No response from server. Please check your internet connection.');
-      } else {
-        toast.error(`Error: ${error.message}. Please try again.`);
-      }
-    } finally {
-      setIsLoading(false);
+    if (registerUser.fulfilled.match(resultAction)) {
+      toast.success(resultAction.payload.message || 'Registration successful! You can now log in.');
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      navigate('/login');
+    } else if (registerUser.rejected.match(resultAction)) {
+      toast.error(resultAction.payload || 'An unknown error occurred during registration.');
     }
   };
 
@@ -134,6 +128,10 @@ function Register() {
               />
             </div>
           </div>
+
+          {error && (
+            <p className="text-red-500 text-xs italic text-center">{error}</p>
+          )}
 
           <button
             type="submit"

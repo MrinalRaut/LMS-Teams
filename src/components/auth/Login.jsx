@@ -1,3 +1,4 @@
+// Filename: src/components/auth/Login.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +18,7 @@ function Login() {
   useEffect(() => {
     if (isAuthenticated) {
       toast.success('Login successful!');
-      navigate('/dashboard');
+      navigate('/'); // Changed from '/dashboard' to '/' to match App.jsx route for authenticated users
     }
   }, [isAuthenticated, navigate]);
 
